@@ -1,0 +1,39 @@
+local player = game.Players.LocalPlayer
+local deleteButton = Enum.KeyCode.Z -- DELETE BUTTON
+local UIM = game.UserInputService
+local mouse = player:GetMouse()
+ 
+mouse.Move:Connect(function()
+    if game.Workspace:FindFirstChild("DestroySelectionBox") then
+        game.Workspace:FindFirstChild("DestroySelectionBox"):Destroy()
+    end
+    if mouse.Target then
+        if mouse.Target:IsA("Part") or mouse.Target:IsA("MeshPart") then
+            local box = Instance.new("SelectionBox")
+            box.Color3 = Color3.new(255,255,255)
+            box.LineThickness = 0.1
+            box.SurfaceTransparency = 0.99
+            box.SurfaceColor3 = Color3.new(255,255,255)
+            box.Transparency = 0
+            box.Adornee = mouse.Target
+            box.Parent = game.Workspace
+            box.Name = "DestroySelectionBox"
+        end
+    end
+end)
+ 
+UIM.InputBegan:Connect(function(input, gameProcessed)
+    if input.UserInputType == Enum.UserInputType.Keyboard then
+        if input.KeyCode == deleteButton then
+            delete()
+        end
+    end
+end)
+    
+function delete()
+    if mouse.Target then
+        if mouse.Target:IsA("Part") or mouse.Target:IsA("MeshPart") then
+            mouse.Target:Destroy()
+        end
+    end
+end
